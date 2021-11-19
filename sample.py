@@ -1,10 +1,11 @@
 import streamlit as st
 import pandas as pd
+import cv2
 
 st.header("First WebApp MDFK")
 st.write("Hello world yoooooo!")
 
-menu = ["Home", "About Us", "Read Data"]
+menu = ["Home", "About Us", "Read Data", "Camera"]
 
 choice = st.sidebar.selectbox("Menu", menu)
 
@@ -35,3 +36,17 @@ elif choice == "About Us":
     st.video("media/dogs.mp4")
     fileUp = st.file_uploader("Upload file", type = ["jpg","png","jpeg"])
     st.image(fileUp)
+
+elif choice == "Camera":
+    st.title('Open your webcam')
+    st.warning('Webcam show on local computer ONLY')
+    show = st.checkbox('Show!')
+    FRAME_WINDOW = st.image([])
+    camera = cv2.VideoCapture(0) # device 1/2
+
+    while show:
+        _, frame = camera.read()
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        FRAME_WINDOW.image(frame)
+    else:
+        camera.release()
